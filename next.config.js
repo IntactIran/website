@@ -67,7 +67,7 @@ module.exports = () => {
       ignoreDuringBuilds: true,
     },
     images: {
-      domains: ['', 'localhost', 'tailwind-nextjs-starter-blog-i18n.vercel.app/', 'picsum.photos'],
+      domains: ['', 'localhost', 'https://intactiran.vercel.app/', 'picsum.photos'],
     },
     async headers() {
       return [
