@@ -1,8 +1,8 @@
 {
-  "farsi": {
-    "fa": "fa/sample-post"
-  },
   "kybi": {
     "en": "posts/sample-post"
+  },
+  "farsi": {
+    "fa": "fa/sample-post"
   }
 }
