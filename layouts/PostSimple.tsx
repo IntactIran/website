@@ -15,6 +15,7 @@ import { LocaleTypes } from 'app/[locale]/i18n/settings'
 import TOC from '@/components/TOC'
 import classNames from 'classnames'
 import FloatingNav from '@/components/FloatingNav'
+import { Toc } from 'pliny/mdx-plugins/remark-toc-headings'
 
 interface PostSimpleProps {
   content: CoreContent<Blog>
@@ -41,11 +42,11 @@ export default async function PostLayout({
       <div className="mx-auto min-h-screen py-6 md:flex md:flex-row-reverse md:gap-8 md:py-8 lg:py-10">
         <div className="block md:hidden">
           <FloatingNav>
-            <TOC toc={content.toc} />
+            <TOC toc={content.toc as unknown as Toc} params={{ locale }} />
           </FloatingNav>
         </div>
         <div className="sticky top-[126px] z-0 hidden h-[calc(100vh-121px)] max-h-screen text-cadetGray-400 md:flex md:w-3/12">
-          <TOC toc={content.toc} />
+          <TOC toc={content.toc as unknown as Toc} params={{ locale }} />
         </div>
 
         <article className="w-full px-1 md:w-9/12 md:px-6">

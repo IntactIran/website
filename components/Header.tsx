@@ -21,7 +21,6 @@ const Header = () => {
   // Get current page path
   const pathname = usePathname()
   const { resolvedTheme } = useTheme()
-  console.log(resolvedTheme)
   const isRTL = dir(locale) === 'rtl'
 
   return (

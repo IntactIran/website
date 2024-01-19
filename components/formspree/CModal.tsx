@@ -53,7 +53,7 @@ export const CModal: React.FC<cModalProps> = ({
         {/* Content  */}
         <div
           ref={modalContentRef}
-          className="relative flex h-full w-full flex-col rounded-lg border-0 bg-white shadow-lg outline-none focus:outline-none dark:bg-black lg:h-auto"
+          className="relative flex h-full w-full flex-col rounded-lg border-0 bg-white shadow-lg outline-none focus:outline-none lg:h-auto dark:bg-black"
         >
           {/* Header */}
           <div className="flex items-center justify-between rounded-t p-6">

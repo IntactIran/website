@@ -1,5 +1,4 @@
 import { Metadata } from 'next'
-import Project from './project'
 import { genPageMetadata } from 'app/[locale]/seo'
 import { createTranslation } from '../i18n/server'
 import { LocaleTypes } from '../i18n/settings'
@@ -30,9 +29,7 @@ export default async function Projects({ params: { locale } }: ProjectsProps) {
           <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">{t('description')}</p>
         </div>
         <div className="container py-12">
-          <div className="-m-4 flex flex-wrap">
-            <Project />
-          </div>
+          <div className="-m-4 flex flex-wrap">asdasd</div>
         </div>
       </div>
     </>

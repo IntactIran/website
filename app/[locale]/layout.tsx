@@ -3,7 +3,7 @@ import 'pliny/search/algolia.css'
 
 import { Space_Grotesk } from 'next/font/google'
 import localFont from 'next/font/local'
-import { Analytics, AnalyticsConfig } from 'pliny/analytics'
+// import { Analytics, AnalyticsConfig } from 'pliny/analytics'
 import { SearchProvider } from '@/components/search/SearchProvider'
 import Header from '@/components/Header'
 import SectionContainer from '@/components/SectionContainer'
@@ -174,7 +174,7 @@ export default function RootLayout({
       <body className="min-h-screen w-full bg-white font-sans text-cadetGray-400 antialiased dark:bg-delftBlue-900">
         <TwSizeIndicator />
         <ThemeProviders>
-          <Analytics analyticsConfig={siteMetadata.analytics as AnalyticsConfig} />
+          {/* <Analytics analyticsConfig={siteMetadata.analytics as AnalyticsConfig} /> */}
           {/* <SectionContainer> */}
           <SearchProvider>
             <Header />

@@ -62,7 +62,6 @@ const MobileNav = () => {
         </div>
         <nav className="fixed mt-8 h-full w-full">
           {headerNavLinks.map((link) => {
-            console.log(pathname, link.href)
             const isSelected =
               link.href !== '/' ? pathname.includes(link.href) : pathname === link.href
             return (

@@ -84,7 +84,7 @@ const NewsletterForm = ({ apiUrl = '/api/newsletter' }: NewsletterFormProps) => 
         </div>
       </form>
       {error && (
-        <div className="w-72 pt-2 text-sm text-red-500 dark:text-red-400 sm:w-96">{message}</div>
+        <div className="w-72 pt-2 text-sm text-red-500 sm:w-96 dark:text-red-400">{message}</div>
       )}
     </div>
   )
