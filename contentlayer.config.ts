@@ -21,8 +21,10 @@ import rehypePrismPlus from 'rehype-prism-plus'
 import rehypePresetMinify from 'rehype-preset-minify'
 import siteMetadata from './data/siteMetadata'
 import { allCoreContent, sortPosts } from 'pliny/utils/contentlayer.js'
-import { fallbackLng, secondLng } from './app/[locale]/i18n/locales'
+import * as langs from './app/[locale]/i18n/locales'
 import { allBlogs } from 'contentlayer/generated'
+
+const langsList = Object.entries(langs).map((item, index) => item[1])
 
 const root = process.cwd()
 const isProduction = process.env.NODE_ENV === 'production'
@@ -50,7 +52,7 @@ async function generateSlugMap(allBlogs) {
   // Process each blog post
   allBlogs.forEach((blog) => {
     const { localeid, language, slug } = blog
-    const formattedLng = language === fallbackLng ? fallbackLng : secondLng
+    const formattedLng = langsList.includes(language) ? language : langs.fallbackLng
 
     if (!slugMap[localeid]) {
       slugMap[localeid] = {}
@@ -69,20 +71,21 @@ async function generateSlugMap(allBlogs) {
  */
 
 function createTagCount(allBlogs) {
-  const tagCount = {
-    [fallbackLng]: {},
-    [secondLng]: {},
-  }
+  const tagCount = {}
+  langsList.forEach((value) => {
+    tagCount[value] = {}
+  })
 
   allBlogs.forEach((file) => {
     if (file.tags && (!isProduction || file.draft !== true)) {
       file.tags.forEach((tag: string) => {
         const formattedTag = GithubSlugger.slug(tag)
-        if (file.language === fallbackLng) {
-          tagCount[fallbackLng][formattedTag] = (tagCount[fallbackLng][formattedTag] || 0) + 1
-        } else if (file.language === secondLng) {
-          tagCount[secondLng][formattedTag] = (tagCount[secondLng][formattedTag] || 0) + 1
-        }
+
+        langsList.forEach((value) => {
+          if (file.language === value) {
+            tagCount[value][formattedTag] = (tagCount[value][formattedTag] || 0) + 1
+          }
+        })
       })
     }
   })

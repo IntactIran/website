@@ -1,0 +1,21 @@
+version: "3"
+services:
+  react-ui:
+    build:
+      context: ./
+      dockerfile: ./Docker/Dockerfile
+    image: reactui
+    container_name: intact_ui
+    ports:
+      - "3002:3000"
+    working_dir: /usr/src/app
+    stdin_open: true
+    volumes:
+      - ./:/usr/src/app
+      - /home/arman/Documents/projects/webapp/:/mnt/drive
+  # ganache:
+  #   image: trufflesuite/ganache-cli:latest
+  #   container_name: ganache
+  #   ports:
+  #     - 8545:8545
+  #   stdin_open: true

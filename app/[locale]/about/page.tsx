@@ -6,6 +6,7 @@ import { coreContent } from 'pliny/utils/contentlayer'
 import { genPageMetadata } from 'app/[locale]/seo'
 import { createTranslation } from '../i18n/server'
 import { LocaleTypes } from '../i18n/settings'
+import { redirect } from 'next/navigation'
 
 type AboutProps = {
   params: { locale: LocaleTypes }
@@ -20,6 +21,7 @@ export async function generateMetadata({ params: { locale } }: AboutProps): Prom
 }
 
 export default async function Page({ params: { locale } }: AboutProps) {
+  redirect(`/${locale}/comming-soon/`)
   const author = allAuthors.find(
     (a) => a.slug.includes('default') && a.language === locale
   ) as Authors

@@ -30,11 +30,11 @@ export function genPageMetadata({
       locale: locale,
       type: 'website',
     },
-    twitter: {
-      title: `${title} | ${maintitle[locale]}`,
-      card: 'summary_large_image',
-      images: image ? [image] : [siteMetadata.socialBanner],
-    },
+    // twitter: {
+    //   title: `${title} | ${maintitle[locale]}`,
+    //   card: 'summary_large_image',
+    //   images: image ? [image] : [siteMetadata.socialBanner],
+    // },
     ...rest,
   }
 }

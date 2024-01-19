@@ -14,7 +14,8 @@ const Tag: React.FC<TagProps> = ({ text, params: { locale } }) => {
   return (
     <Link
       href={tagLink}
-      className="mr-3 mt-2 text-sm font-medium uppercase text-primary-500 hover:text-primary-600 dark:hover:text-primary-400 sm:mt-0"
+      className="rounded-xl bg-antiFlashWhite-50 px-2 py-1 text-sm font-thin uppercase
+       text-cadetGray-500 hover:text-bittersweet dark:bg-antiFlashWhite-900 dark:text-cadetGray-200"
     >
       {text.replace(/ /g, '-')}
     </Link>

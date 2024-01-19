@@ -3,6 +3,7 @@
 import { usePathname } from 'next/navigation'
 import { motion } from 'framer-motion'
 import { slug } from 'github-slugger'
+import { dir } from 'i18next'
 import { formatDate } from 'pliny/utils/formatDate'
 import { CoreContent } from 'pliny/utils/contentlayer'
 import type { Blog } from 'contentlayer/generated'
@@ -12,6 +13,7 @@ import tagData from 'app/[locale]/tag-data.json'
 import { fallbackLng } from 'app/[locale]/i18n/locales'
 import { useTranslation } from 'app/[locale]/i18n/client'
 import { LocaleTypes } from 'app/[locale]/i18n/settings'
+import classNames from 'classnames'
 
 interface PaginationProps {
   totalPages: number
@@ -47,35 +49,37 @@ function Pagination({ totalPages, currentPage, params: { locale } }: PaginationP
   const pathname = usePathname()
   const basePath =
     locale === fallbackLng ? pathname.split('/')[1] : pathname.split('/').slice(1, 3).join('/')
-  const prevPage = currentPage - 1 > 0
-  const nextPage = currentPage + 1 <= totalPages
+  const isPrevPage = currentPage - 1 > 0
+  const isNextPage = currentPage + 1 <= totalPages
+  const prevPage = currentPage - 1
+  const nextPage = currentPage + 1
 
   return (
-    <div className="space-y-2 pb-8 pt-6 md:space-y-5">
-      <nav className="flex justify-between">
-        {!prevPage && (
-          <button className="cursor-auto disabled:opacity-50" disabled={!prevPage}>
+    <div className="space-y-2 pb-8 pt-6 font-mono md:space-y-5">
+      <nav className="flex justify-center gap-3">
+        {!isPrevPage && (
+          <button className="cursor-auto disabled:opacity-50" disabled={!isPrevPage}>
             {t('prevp')}
           </button>
         )}
-        {prevPage && (
+        {isPrevPage && (
           <Link
-            href={currentPage - 1 === 1 ? `/${basePath}/` : `/${basePath}/page/${currentPage - 1}`}
+            href={currentPage - 1 === 1 ? `/${basePath}/` : `/${basePath}/page/${prevPage}`}
             rel="prev"
           >
             {t('prevp')}
           </Link>
         )}
         <span>
-          {currentPage} of {totalPages}
+          {currentPage} {t('of')} {totalPages}
         </span>
-        {!nextPage && (
-          <button className="cursor-auto disabled:opacity-50" disabled={!nextPage}>
+        {!isNextPage && (
+          <button className="cursor-auto disabled:opacity-50" disabled={!isNextPage}>
             {t('nextp')}
           </button>
         )}
-        {nextPage && (
-          <Link href={`/${basePath}/page/${currentPage + 1}`} rel="next">
+        {isNextPage && (
+          <Link href={`/${basePath}/page/${nextPage}`} rel="next">
             {t('nextp')}
           </Link>
         )}
@@ -93,48 +97,57 @@ export default function ListLayoutWithTags({
 }: ListLayoutProps) {
   const { t } = useTranslation(locale, 'home')
   const pathname = usePathname()
+  const isRTL = dir(locale) === 'rtl'
 
-  const tagCountMap = tagData[locale] // Get tag counts based on locale
-
-  const filteredTags = Object.keys(tagCountMap).map((postTag) => {
-    return (
-      <li key={postTag} className="my-3">
-        {pathname.split('/tags/')[1] === slug(postTag) ? (
-          <h3 className="inline px-3 py-2 text-sm font-bold uppercase text-primary-500">
-            {postTag} ({tagCountMap[postTag]})
-          </h3>
-        ) : (
-          <Link
-            href={`/${locale}/tags/${slug(postTag)}`}
-            className="px-3 py-2 text-sm font-medium uppercase text-gray-500 hover:text-primary-500 dark:text-gray-300 dark:hover:text-primary-500"
-            aria-labelledby={`${t('poststagged')} ${postTag}`}
-          >
-            {postTag} ({tagCountMap[postTag]})
-          </Link>
-        )}
-      </li>
-    )
-  })
+  // const tagCountMap = tagData[locale] // Get tag counts based on locale
+  // const filteredTags = Object.keys(tagCountMap).map((postTag) => {
+  //   return (
+  //     <li key={postTag} className="my-3">
+  //       {pathname.split('/tags/')[1] === slug(postTag) ? (
+  //         <h3 className="inline px-3 py-2 text-sm font-bold uppercase text-primary-500">
+  //           {postTag} ({tagCountMap[postTag]})
+  //         </h3>
+  //       ) : (
+  //         <Link
+  //           href={`/${locale}/tags/${slug(postTag)}`}
+  //           className="px-3 py-2 text-sm font-medium uppercase text-gray-500 hover:text-primary-500 dark:text-gray-300 dark:hover:text-primary-500"
+  //           aria-labelledby={`${t('poststagged')} ${postTag}`}
+  //         >
+  //           {postTag} ({tagCountMap[postTag]})
+  //         </Link>
+  //       )}
+  //     </li>
+  //   )
+  // })
 
   const displayPosts = initialDisplayPosts.length > 0 ? initialDisplayPosts : posts
 
   return (
     <>
-      <div>
-        <div className="pb-6 pt-6">
-          <h1 className="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:hidden sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">
+      <div className="min-h-screen overflow-x-hidden">
+        {/* <div className="pb-6 pt-6">
+          <h1
+            className="text-3xl font-extrabold leading-9 tracking-tight
+           text-gray-900 sm:hidden sm:text-4xl sm:leading-10 md:text-6xl 
+           md:leading-14 dark:text-gray-100"
+          >
             {title}
           </h1>
-        </div>
-        <div className="flex sm:space-x-24">
-          <div className="hidden h-full max-h-screen min-w-[280px] max-w-[280px] flex-wrap overflow-auto rounded bg-gray-50 pt-5 shadow-md dark:bg-gray-900/70 dark:shadow-gray-800/40 sm:flex">
+        </div> */}
+        <div className="flex gap-24 py-12">
+          {/* <div
+            className="hidden h-full max-h-screen min-w-[280px] max-w-[280px] flex-wrap
+           overflow-auto rounded bg-gray-50 pt-5 shadow-md sm:flex dark:bg-gray-900/70
+            dark:shadow-gray-800/40"
+          >
             <div className="px-6 py-4">
               {pathname.startsWith(`/${locale}/blog`) || pathname.startsWith('/blog') ? (
                 <h3 className="font-bold uppercase text-primary-500">{t('all')}</h3>
               ) : (
                 <Link
                   href={`/${locale}/blog`}
-                  className="font-bold uppercase text-gray-700 hover:text-primary-500 dark:text-gray-300 dark:hover:text-primary-500"
+                  className="font-bold uppercase text-gray-700 hover:text-primary-500
+                   dark:text-gray-300 dark:hover:text-primary-500"
                   aria-labelledby={t('all')}
                 >
                   {t('all')}
@@ -142,42 +155,61 @@ export default function ListLayoutWithTags({
               )}
               <ul>{filteredTags}</ul>
             </div>
-          </div>
-          <div>
-            <motion.ul variants={container} initial="hidden" animate="show">
+          </div> */}
+          <div className="h-full w-full px-8 lg:px-14">
+            <motion.ul
+              variants={container}
+              initial="hidden"
+              animate="show"
+              className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"
+            >
               {displayPosts.map((post) => {
                 const { path, date, title, summary, tags, language } = post
                 if (language === locale) {
                   return (
-                    <motion.li variants={item} key={path} className="py-5">
-                      <article className="flex flex-col space-y-2 xl:space-y-0">
-                        <dl>
-                          <dt className="sr-only">{t('pub')}</dt>
-                          <dd className="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
-                            <time dateTime={date}>{formatDate(date, language)}</time>
-                          </dd>
-                        </dl>
-                        <div className="space-y-3">
-                          <div>
-                            <h2 className="text-2xl font-bold leading-8 tracking-tight">
-                              <Link
-                                href={`/${locale}/${path}`}
-                                className="text-gray-900 dark:text-gray-100"
-                                aria-labelledby={title}
-                              >
+                    <motion.li
+                      variants={item}
+                      key={path}
+                      className="rounded-md border border-cadetGray-100 px-4 py-5 dark:border-cadetGray-700"
+                    >
+                      <article className="flex h-full flex-col justify-between gap-2">
+                        <section className="flex h-full flex-col justify-between gap-2">
+                          <div className="flex flex-col gap-2">
+                            <dl>
+                              <dt className="sr-only">{t('pub')}</dt>
+                              <dd className="font-mono text-xs font-semibold leading-6 text-cadetGray-400">
+                                <time dateTime={date}>{formatDate(date, language)}</time>
+                              </dd>
+                            </dl>
+                            <div className="flex flex-col gap-2">
+                              <h2 className="font-serif text-2xl font-bold leading-8 tracking-tight text-cadetGray-900 dark:text-cadetGray-100">
                                 {title}
-                              </Link>
-                            </h2>
-                            <div className="flex flex-wrap">
-                              {tags?.map((tag) => (
-                                <Tag key={tag} text={tag} params={{ locale: locale }} />
-                              ))}
+                              </h2>
+
+                              <div className="prose max-w-none text-gray-500 dark:text-cadetGray-400">
+                                {summary!.length > 149
+                                  ? `${summary!.substring(0, 149)}...`
+                                  : summary}
+                              </div>
                             </div>
                           </div>
-                          <div className="prose max-w-none text-gray-500 dark:text-gray-400">
-                            {summary!.length > 149 ? `${summary!.substring(0, 149)}...` : summary}
+
+                          <div
+                            className={classNames('flex flex-wrap gap-1', {
+                              'flex-row-reverse': isRTL,
+                            })}
+                          >
+                            {tags?.map((tag) => (
+                              <Tag key={tag} text={tag} params={{ locale: locale }} />
+                            ))}
                           </div>
-                        </div>
+                        </section>
+
+                        <Link href={`/${locale}/${path}`} aria-labelledby={title}>
+                          <button className="w-full rounded-md bg-cadetGray-50 py-2 font-mono font-medium text-cadetGray-400 transition-all duration-300 ease-in-out hover:bg-bittersweet hover:text-cadetGray-50 dark:bg-antiFlashWhite-700 dark:text-cadetGray-100">
+                            {t('more')}
+                          </button>
+                        </Link>
                       </article>
                     </motion.li>
                   )

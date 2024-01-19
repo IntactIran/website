@@ -8,8 +8,13 @@ import PageTitle from '@/components/PageTitle'
 import SectionContainer from '@/components/SectionContainer'
 import siteMetadata from '@/data/siteMetadata'
 import ScrollTopAndComment from '@/components/ScrollTopAndComment'
+import { components } from '@/components/MDXComponents'
 import { createTranslation } from 'app/[locale]/i18n/server'
+import { dir } from 'i18next'
 import { LocaleTypes } from 'app/[locale]/i18n/settings'
+import TOC from '@/components/TOC'
+import classNames from 'classnames'
+import FloatingNav from '@/components/FloatingNav'
 
 interface PostSimpleProps {
   content: CoreContent<Blog>
@@ -28,64 +33,50 @@ export default async function PostLayout({
 }: PostSimpleProps) {
   const { slug, date, title, language } = content
   const { t } = await createTranslation(locale, 'home')
+  const isRTL = dir(locale) === 'rtl'
+
   return (
     <SectionContainer>
       <ScrollTopAndComment />
-      <article>
-        <div>
-          <header>
-            <div className="space-y-1 border-b border-gray-200 pb-10 text-center dark:border-gray-700">
-              <dl>
+      <div className="mx-auto min-h-screen py-6 md:flex md:flex-row-reverse md:gap-8 md:py-8 lg:py-10">
+        <div className="block md:hidden">
+          <FloatingNav>
+            <TOC toc={content.toc} />
+          </FloatingNav>
+        </div>
+        <div className="sticky top-[126px] z-0 hidden h-[calc(100vh-121px)] max-h-screen text-cadetGray-400 md:flex md:w-3/12">
+          <TOC toc={content.toc} />
+        </div>
+
+        <article className="w-full px-1 md:w-9/12 md:px-6">
+          <header className="border-b border-cadetGray-100 pt-9 dark:border-cadetGray-700">
+            <div className="dark:border-antiFlashWhite-800">
+              <div className="pb-3">
+                <PageTitle>{title}</PageTitle>
+              </div>
+              <dl className="pb-3 text-base font-medium leading-6 text-cadetGray-400">
                 <div>
                   <dt className="sr-only">{t('pub')}</dt>
-                  <dd className="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
+                  <dd>
                     <time dateTime={date}>{formatDate(date, language)}</time>
                   </dd>
                 </div>
               </dl>
-              <div>
-                <PageTitle>{title}</PageTitle>
-              </div>
             </div>
           </header>
-          <div className="grid-rows-[auto_1fr] divide-y divide-gray-200 pb-8 dark:divide-gray-700 xl:divide-y-0">
-            <div className="divide-y divide-gray-200 dark:divide-gray-700 xl:col-span-3 xl:row-span-2 xl:pb-0">
-              <div className="prose max-w-none pb-8 pt-10 dark:prose-invert">{children}</div>
+          <section className="">
+            <div className="">
+              <div
+                className="prose max-w-none pb-8 pt-10 dark:prose-invert prose-headings:scroll-mt-32 prose-headings:font-serif prose-headings:text-cadetGray-800 prose-p:text-balance prose-p:text-cadetGray-600 prose-img:m-0 dark:prose-headings:text-cadetGray-200"
+                style={{ offsetAnchor: 'left -128px' }}
+              >
+                {children}
+              </div>
             </div>
-            {siteMetadata.comments && (
-              <div className="pb-6 pt-6 text-center text-gray-700 dark:text-gray-300" id="comment">
-                <Comments slug={slug} />
-              </div>
-            )}
-            <footer>
-              <div className="flex flex-col text-sm font-medium sm:flex-row sm:justify-between sm:text-base">
-                {prev && prev.path && (
-                  <div className="pt-4 xl:pt-8">
-                    <Link
-                      href={`/${locale}/${prev.path}`}
-                      className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
-                      aria-label={`Previous post: ${prev.title}`}
-                    >
-                      &larr; {prev.title}
-                    </Link>
-                  </div>
-                )}
-                {next && next.path && (
-                  <div className="pt-4 xl:pt-8">
-                    <Link
-                      href={`/${locale}/${next.path}`}
-                      className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
-                      aria-label={`Next post: ${next.title}`}
-                    >
-                      {next.title} &rarr;
-                    </Link>
-                  </div>
-                )}
-              </div>
-            </footer>
-          </div>
-        </div>
-      </article>
+          </section>
+          <footer></footer>
+        </article>
+      </div>
     </SectionContainer>
   )
 }

@@ -26,8 +26,8 @@ export default function Footer() {
   return (
     <>
       <footer>
-        <div className="mt-16 flex flex-col items-center">
-          <div className="mb-3 flex space-x-4">
+        <div className="flex flex-col items-center bg-delftBlue-400 pt-7 text-cadetGray-400">
+          {/* <div className="mb-3 flex gap-4">
             <div className="flex items-center">
               {siteMetadata.formspree === false ? (
                 <SocialIcon kind="mail" href={`mailto:${siteMetadata.email}`} size={6} />
@@ -52,20 +52,20 @@ export default function Footer() {
             <div className="flex items-center">
               <SocialIcon kind="twitter" href={siteMetadata.twitter} size={6} />
             </div>
-          </div>
-          <div className="mb-2 flex space-x-2 text-sm text-gray-500 dark:text-gray-400">
+          </div> */}
+          <div className="mb-2 flex gap-2 text-sm  ">
             <div>{siteMetadata.author}</div>
             <div>{` • `}</div>
             <div>{`© ${new Date().getFullYear()}`}</div>
             <div>{` • `}</div>
             <Link href="/">{siteMetadata.title}</Link>
           </div>
-          <div className="mb-8 text-sm text-gray-500 dark:text-gray-400">
+          <div className="mb-8 text-sm">
             <Link href="https://github.com/timlrx/tailwind-nextjs-starter-blog">{t('theme')}</Link>
           </div>
         </div>
       </footer>
-      <ContactModal />
+      {/* <ContactModal /> */}
     </>
   )
 }

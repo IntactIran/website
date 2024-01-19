@@ -48,7 +48,10 @@ const LangSwitch = () => {
       <div>
         <button
           type="button"
-          className="inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 dark:bg-gray-800 dark:text-white"
+          className="inline-flex w-full items-center justify-center rounded-md
+           border-2 border-cadetGray-400 px-2 pb-1 pt-2 text-sm font-medium text-ghostWhite
+            shadow-sm hover:bg-cadetGray-400 dark:bg-gray-800
+            dark:text-white"
           id="options-menu"
           aria-haspopup="true"
           aria-expanded={isMenuOpen}
@@ -59,25 +62,26 @@ const LangSwitch = () => {
       </div>
       {isMenuOpen && (
         <div
-          className="absolute right-0 mt-2 w-12 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-gray-700"
+          className="absolute right-0 mt-2 w-fit origin-top-right rounded-md bg-antiFlashWhite-50
+           text-cadetGray-900 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:border
+           dark:border-cadetGray-400 dark:bg-delftBlue-400 dark:text-ghostWhite dark:shadow-none"
           role="menu"
           aria-orientation="vertical"
           aria-labelledby="options-menu"
           onBlur={closeMenu}
         >
-          <div className="py-1" role="none">
-            {locales.map((newLocale: string) => (
-              <Link key={newLocale} href={handleLocaleChange(newLocale)} locale={false}>
-                <button
-                  className="dark: block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600"
-                  role="menuitem"
-                  onClick={closeMenu}
-                >
-                  {newLocale}
-                </button>
-              </Link>
-            ))}
-          </div>
+          {locales.map((newLocale: string) => (
+            <Link key={newLocale} href={handleLocaleChange(newLocale)} locale={false}>
+              <button
+                className="h-9 w-12 rounded-md text-sm hover:bg-antiFlashWhite-100
+                    dark:hover:bg-gray-600"
+                role="menuitem"
+                onClick={closeMenu}
+              >
+                {newLocale}
+              </button>
+            </Link>
+          ))}
         </div>
       )}
     </div>

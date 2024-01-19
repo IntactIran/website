@@ -18,7 +18,7 @@ interface BlogPageProps {
   params: { slug: string[]; locale: LocaleTypes }
 }
 
-const defaultLayout = 'PostLayout'
+const defaultLayout = 'PostSimple'
 const layouts = {
   PostSimple,
   PostLayout,

@@ -30,7 +30,7 @@ export default async function Page({ params: { locale, page } }: BlogPageProps) 
   const pagination = {
     currentPage: pageNumber,
     totalPages: Math.ceil(filteredPosts.length / POSTS_PER_PAGE),
-    params: { locale: locale },
+    params: { locale: locale as LocaleTypes },
   }
 
   return (
